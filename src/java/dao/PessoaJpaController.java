@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package dao;
 
-import controllers.exceptions.IllegalOrphanException;
-import controllers.exceptions.NonexistentEntityException;
+import dao.exceptions.IllegalOrphanException;
+import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import models.Pessoa;
 
 /**
@@ -197,6 +199,21 @@ public class PessoaJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+        }
+    }
+    
+    public Pessoa getPessoaByLoginAndPassword(String email, String password) {
+        Query qry = getEntityManager().createNamedQuery("Pessoa.findByLoginAndPassword");
+        
+        qry.setParameter("ema", email);
+        qry.setParameter("pass", password);
+        
+        try {
+            return (Pessoa) qry.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch(NonUniqueResultException e){
+            return (Pessoa) qry.getResultList().get(0);
         }
     }
     

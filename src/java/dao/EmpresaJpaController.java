@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package controllers;
+package dao;
 
-import controllers.exceptions.IllegalOrphanException;
-import controllers.exceptions.NonexistentEntityException;
+import dao.exceptions.IllegalOrphanException;
+import dao.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
