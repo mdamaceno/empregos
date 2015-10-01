@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import dao.PessoaJpaController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Pessoa;
 
 /**
  *
@@ -46,6 +48,28 @@ public class Admin extends HttpServlet {
             injectPage(request, "dashboard");
         } else if (acao.equalsIgnoreCase("new_resume")) {
             injectPage(request, "cadastrar_cv");
+        } else if (acao.equalsIgnoreCase("create_resume")) {
+            String id = request.getParameter("resume_id");
+            String name = request.getParameter("resume_name");
+            String email = request.getParameter("resume_email");
+            String phone = request.getParameter("resume_phone");
+            String cellphone = request.getParameter("resume_cellphone");
+            String school = request.getParameter("resume_school");
+            int function_1 = Integer.parseInt(request.getParameter("resume_function_1"));
+            int function_2 = Integer.parseInt(request.getParameter("resume_function_2"));
+            int function_3 = Integer.parseInt(request.getParameter("resume_function_3"));
+            String password = request.getParameter("resume_password");
+            String password_confirmation = request.getParameter("resume_password_confirmation");
+            Boolean working = !request.getParameter("resume_working").equals("0");
+            
+            if (id == null) {
+                Pessoa p = new Pessoa(
+                        null, name, email, phone, cellphone, school, function_1,
+                        function_2, function_3, password, working
+                );
+                new PessoaJpaController(emf).create(p);
+            }
+            injectPage(request, "dashboard");
         }
         
         rd.forward(request, response);

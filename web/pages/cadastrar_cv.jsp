@@ -4,7 +4,7 @@
     <div class="col-md-12">
         <form method="POST" action="admin" class="form-horizontal">
             <input type="hidden" name="action" value="create_resume" />
-
+            
             <div class="form-group">
                 <label class="col-sm-2 control-label">Nome</label>
                 <div class="col-sm-10">
@@ -29,10 +29,16 @@
                     <input type="text" class="form-control" name="resume_cellphone" />
                 </div>
             </div>
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">Escolaridade</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_school" />
+                    <select class="form-control" name="resume_school">
+                        <option value="">Selecione</option>
+                        <option value="fundamental">Fundamental</option>
+                        <option value="medio">Médio</option>
+                        <option value="superior">Superior</option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
@@ -68,8 +74,17 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">Empregado</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_working" />
+                    <label class="radio-inline">
+                        <input type="radio" name="resume_working" value="1"> Sim
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="resume_working" value="0"> Não
+                    </label>
                 </div>
+
+            </div>
+            <div class="pull-right">
+                <button type="submit" class="btn btn-success">Cadastrar</button>
             </div>
         </form>
     </div>

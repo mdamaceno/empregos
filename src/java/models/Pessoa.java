@@ -88,6 +88,20 @@ public class Pessoa implements Serializable {
         this.senha = senha;
     }
 
+    public Pessoa(Integer id, String nome, String email, String telefone, String celular, String escolaridade, Integer funcao1, Integer funcao2, Integer funcao3, String senha, Boolean empregado) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.celular = celular;
+        this.escolaridade = escolaridade;
+        this.funcao1 = funcao1;
+        this.funcao2 = funcao2;
+        this.funcao3 = funcao3;
+        this.senha = senha;
+        this.empregado = empregado;
+    }
+    
     public Integer getId() {
         return id;
     }
