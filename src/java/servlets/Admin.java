@@ -35,7 +35,7 @@ public class Admin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         RequestDispatcher rd;
-        rd = request.getRequestDispatcher("index.jsp");
+        rd = request.getRequestDispatcher("admin.jsp");
         
         String acao = request.getParameter("action");
         
@@ -43,10 +43,16 @@ public class Admin extends HttpServlet {
         emf = Persistence.createEntityManagerFactory("EmpregosPU");
         
         if (acao == null) {
-            request.setAttribute("pg", "dashboard");
+            injectPage(request, "dashboard");
+        } else if (acao.equalsIgnoreCase("new_resume")) {
+            injectPage(request, "cadastrar_cv");
         }
         
         rd.forward(request, response);
+    }
+    
+    private void injectPage(HttpServletRequest request, String pagina) {
+        request.setAttribute("pg", pagina);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
