@@ -83,7 +83,18 @@
                         <input type="radio" name="resume_working" value="0" ${user.empregado == false ? 'checked' : ''}> Não
                     </label>
                 </div>
-
+            </div>
+                    
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Permissão</label>
+                <div class="col-sm-10">
+                    <select class="form-control" name="resume_role">
+                        <option value="">Selecione</option>
+                        <option value="0" ${user.permissao == 0 ? 'selected' : ''}>Administrador</option>
+                        <option value="1" ${user.permissao == 1 ? 'selected' : ''}>Candidato</option>
+                        <option value="2" ${user.permissao == 2 ? 'selected' : ''}>Empresa</option>
+                    </select>
+                </div>
             </div>
             <div class="pull-right">
                 <button type="submit" class="btn btn-success">Cadastrar</button>

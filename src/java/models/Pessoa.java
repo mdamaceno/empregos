@@ -66,6 +66,7 @@ public class Pessoa implements Serializable {
     private Integer funcao1;
     private Integer funcao2;
     private Integer funcao3;
+    private Integer permissao;
     @Basic(optional = false)
     @Column(nullable = false, length = 15)
     private String senha;
@@ -88,7 +89,12 @@ public class Pessoa implements Serializable {
         this.senha = senha;
     }
 
-    public Pessoa(Integer id, String nome, String email, String telefone, String celular, String escolaridade, Integer funcao1, Integer funcao2, Integer funcao3, String senha, Boolean empregado) {
+    public Pessoa(
+            Integer id, String nome, String email, String telefone,
+            String celular, String escolaridade, Integer funcao1,
+            Integer funcao2, Integer funcao3, String senha, Boolean empregado,
+            Integer permissao
+    ) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -100,8 +106,17 @@ public class Pessoa implements Serializable {
         this.funcao3 = funcao3;
         this.senha = senha;
         this.empregado = empregado;
+        this.permissao = permissao;
     }
-    
+
+    public Integer getPermissao() {
+        return permissao;
+    }
+
+    public void setPermissao(Integer permissao) {
+        this.permissao = permissao;
+    }
+
     public Integer getId() {
         return id;
     }
