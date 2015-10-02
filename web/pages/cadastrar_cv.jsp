@@ -4,29 +4,31 @@
     <div class="col-md-12">
         <form method="POST" action="admin" class="form-horizontal">
             <input type="hidden" name="action" value="create_resume" />
-            
+
+            <input type="hidden" name="resume_id" value="${user.id}" />
+
             <div class="form-group">
                 <label class="col-sm-2 control-label">Nome</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_name" />
+                    <input type="text" class="form-control" name="resume_name" value="${user.nome}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Email</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_email" />
+                    <input type="text" class="form-control" name="resume_email" value="${user.email}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Telefone Fixo</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_phone" />
+                    <input type="text" class="form-control" name="resume_phone" value="${user.telefone}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Celular</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_cellphone" />
+                    <input type="text" class="form-control" name="resume_cellphone" value="${user.celular}" />
                 </div>
             </div>
 
@@ -35,28 +37,28 @@
                 <div class="col-sm-10">
                     <select class="form-control" name="resume_school">
                         <option value="">Selecione</option>
-                        <option value="fundamental">Fundamental</option>
-                        <option value="medio">Médio</option>
-                        <option value="superior">Superior</option>
+                        <option value="fundamental" ${user.escolaridade == 'fundamental' ? 'selected' : ''}>Fundamental</option>
+                        <option value="medio" ${user.escolaridade == 'medio' ? 'selected' : ''}>Médio</option>
+                        <option value="superior" ${user.escolaridade == 'superior' ? 'selected' : ''}>Superior</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Função 1</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_function_1" />
+                    <input type="text" class="form-control" name="resume_function_1" value="${user.funcao1}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Função 2</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_function_2" />
+                    <input type="text" class="form-control" name="resume_function_2" value="${user.funcao2}" />
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Função 3</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="resume_function_3" />
+                    <input type="text" class="form-control" name="resume_function_3" value="${user.funcao3}" />
                 </div>
             </div>
             <div class="form-group">
@@ -75,10 +77,10 @@
                 <label class="col-sm-2 control-label">Empregado</label>
                 <div class="col-sm-10">
                     <label class="radio-inline">
-                        <input type="radio" name="resume_working" value="1"> Sim
+                        <input type="radio" name="resume_working" value="1" ${user.empregado == true ? 'checked' : ''}> Sim
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="resume_working" value="0"> Não
+                        <input type="radio" name="resume_working" value="0" ${user.empregado == false ? 'checked' : ''}> Não
                     </label>
                 </div>
 

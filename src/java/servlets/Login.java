@@ -7,15 +7,14 @@ package servlets;
 
 import dao.PessoaJpaController;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import models.Pessoa;
 
 /**
@@ -45,6 +44,8 @@ public class Login extends HttpServlet {
         EntityManagerFactory emf;
         emf = Persistence.createEntityManagerFactory("EmpregosPU");
         
+        HttpSession session = request.getSession();
+        
         if (acao == null) {
             response.sendRedirect("home");
         } else if (acao.equalsIgnoreCase("make_login")) {
@@ -56,9 +57,11 @@ public class Login extends HttpServlet {
             if (pessoa == null) {
                 request.getRequestDispatcher("login");
                 request.setAttribute("pg", "login");
-                request.setAttribute("msg", "Login ou senha incorreto!");
+                request.setAttribute("warning", "Login ou senha incorreto!");
                 rd.forward(request, response);
             } else {
+                Pessoa p = new PessoaJpaController(emf).findPessoa(pessoa.getId());
+                request.getSession().setAttribute("current_user", p);
                 response.sendRedirect("admin");
             }
         }
