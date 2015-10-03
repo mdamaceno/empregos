@@ -8,6 +8,8 @@ package servlets;
 import dao.PessoaJpaController;
 import dao.exceptions.NonexistentEntityException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
@@ -48,17 +50,24 @@ public class Admin extends HttpServlet {
         emf = Persistence.createEntityManagerFactory("EmpregosPU");
 
         if (acao == null) {
-            Pessoa p = (Pessoa)request.getSession().getAttribute("current_user");
-            
-            if (p.getPermissao().equals(1)) {
-                
+            try {
+                Pessoa p = (Pessoa) request.getSession().getAttribute("current_user");
+
+                if (p.getPermissao().equals(1)) {
+
+                }
+
+                injectPage(request, "dashboard");
+                rd.forward(request, response);
+            } catch (Exception ex) {
+                // Redireciona para /home se tenta acessar /admin sem estar logado
+                response.sendRedirect("home");
             }
-            
-            injectPage(request, "dashboard");
 
         } else if (acao.equalsIgnoreCase("edit_resume")) {
             request.setAttribute("user", request.getSession().getAttribute("current_user"));
             injectPage(request, "cadastrar_cv");
+            rd.forward(request, response);
 
         } else if (acao.equalsIgnoreCase("create_resume")) {
             String id = request.getParameter("resume_id");
@@ -74,13 +83,13 @@ public class Admin extends HttpServlet {
             String password_confirmation = request.getParameter("resume_password_confirmation");
             int role = Integer.parseInt(request.getParameter(("resume_role")));
             Boolean working;
-            
+
             if (request.getParameter("resume_working").equals("1")) {
                 working = true;
             } else {
                 working = false;
             }
-            
+
             if (id == null) {
                 Pessoa p = new Pessoa(
                         null, name, email, phone, cellphone, school, function_1,
@@ -113,13 +122,23 @@ public class Admin extends HttpServlet {
                 }
             }
             injectPage(request, "dashboard");
+            rd.forward(request, response);
+        } else if (acao.equalsIgnoreCase("logout")) {
+            logout(request, response);
         }
-
-        rd.forward(request, response);
     }
 
     private void injectPage(HttpServletRequest request, String pagina) {
         request.setAttribute("pg", pagina);
+    }
+
+    private void logout(HttpServletRequest request, HttpServletResponse response) {
+        request.getSession().invalidate();
+        try {
+            response.sendRedirect("home");
+        } catch (IOException ex) {
+            Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
