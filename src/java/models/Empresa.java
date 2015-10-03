@@ -41,8 +41,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Empresa.findByUf", query = "SELECT e FROM Empresa e WHERE e.uf = :uf"),
     @NamedQuery(name = "Empresa.findByTelefone", query = "SELECT e FROM Empresa e WHERE e.telefone = :telefone"),
     @NamedQuery(name = "Empresa.findByCelular", query = "SELECT e FROM Empresa e WHERE e.celular = :celular"),
-    @NamedQuery(name = "Empresa.findBySenha", query = "SELECT e FROM Empresa e WHERE e.senha = :senha")})
+    @NamedQuery(name = "Empresa.findBySenha", query = "SELECT e FROM Empresa e WHERE e.senha = :senha"),
+    @NamedQuery(name = "Empresa.findByCnpjAndPassword", query = "SELECT e FROM Empresa e WHERE e.cnpj = :doc AND e.senha = :pass")})
 public class Empresa implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -222,5 +224,5 @@ public class Empresa implements Serializable {
     public String toString() {
         return "models.Empresa[ id=" + id + " ]";
     }
-    
+
 }

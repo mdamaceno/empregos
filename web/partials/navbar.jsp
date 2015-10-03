@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="models.Pessoa"%>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
@@ -31,32 +32,30 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <% Pessoa p = (Pessoa) session.getAttribute("current_user");
-                    if (p != null) {
-                %>
-                <% if (p.getPermissao() == 0) { %>
-                <form class="navbar-form navbar-left" method="POST" action="admin">
-                    <input type="hidden" name="action" value="view_companies" />
-                    <button type="submit" class="btn btn-sm btn-primary">Empresas</button>
-                </form>
-                <form class="navbar-form navbar-left" method="POST" action="admin">
-                    <input type="hidden" name="action" value="view_users" />
-                    <button type="submit" class="btn btn-sm btn-primary">Usuários</button>
-                </form>
-                <form class="navbar-form navbar-left" method="POST" action="admin">
-                    <input type="hidden" name="action" value="view_interviews" />
-                    <button type="submit" class="btn btn-sm btn-primary">Reuniões</button>
-                </form>
-                <% } %>
-                <form class="navbar-form navbar-right" method="POST" action="admin">
-                    <input type="hidden" name="action" value="logout" />
-                    <button type="submit" class="btn btn-sm btn-danger">Sair</button>
-                </form>
-                <form class="navbar-form navbar-left" method="POST" action="admin">
-                    <input type="hidden" name="action" value="edit_resume" />
-                    <button type="submit" class="btn btn-sm btn-primary">Minhas informações</button>
-                </form>
-                <% }%>
+                <c:if test="${current_user != null}">
+                    <c:if test="${empty current_user.cnpj}">
+                        <form class="navbar-form navbar-left" method="POST" action="admin">
+                            <input type="hidden" name="action" value="view_companies" />
+                            <button type="submit" class="btn btn-sm btn-primary">Empresas</button>
+                        </form>
+                        <form class="navbar-form navbar-left" method="POST" action="admin">
+                            <input type="hidden" name="action" value="view_users" />
+                            <button type="submit" class="btn btn-sm btn-primary">Usuários</button>
+                        </form>
+                    </c:if>
+                    <form class="navbar-form navbar-left" method="POST" action="admin">
+                        <input type="hidden" name="action" value="view_interviews" />
+                        <button type="submit" class="btn btn-sm btn-primary">Reuniões</button>
+                    </form>
+                    <form class="navbar-form navbar-right" method="POST" action="admin">
+                        <input type="hidden" name="action" value="logout" />
+                        <button type="submit" class="btn btn-sm btn-danger">Sair</button>
+                    </form>
+                    <form class="navbar-form navbar-left" method="POST" action="admin">
+                        <input type="hidden" name="action" value="edit_resume" />
+                        <button type="submit" class="btn btn-sm btn-primary">Minhas informações</button>
+                    </form>
+                </c:if>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

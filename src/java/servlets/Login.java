@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import dao.EmpresaJpaController;
 import dao.PessoaJpaController;
 import java.io.IOException;
 import javax.persistence.EntityManagerFactory;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Empresa;
 import models.Pessoa;
 
 /**
@@ -48,7 +50,7 @@ public class Login extends HttpServlet {
         
         if (acao == null) {
             response.sendRedirect("home");
-        } else if (acao.equalsIgnoreCase("make_login")) {
+        } else if (acao.equalsIgnoreCase("make_login_user")) {
             String email = request.getParameter("pessoa_email");
             String password = request.getParameter("pessoa_senha");
             
@@ -62,6 +64,22 @@ public class Login extends HttpServlet {
             } else {
                 Pessoa p = new PessoaJpaController(emf).findPessoa(pessoa.getId());
                 request.getSession().setAttribute("current_user", p);
+                response.sendRedirect("admin");
+            }
+        } else if (acao.equalsIgnoreCase("make_login_company")) {
+            String cnpj = request.getParameter("empresa_cnpj");
+            String password = request.getParameter("empresa_senha");
+            
+            Empresa empresa = new EmpresaJpaController(emf).getEmpresaByCnpjAndPassowrd(cnpj, password);
+            
+            if (empresa == null) {
+                request.getRequestDispatcher("login");
+                request.setAttribute("pg", "login");
+                request.setAttribute("warning", "CNPJ ou senha incorreto!");
+                rd.forward(request, response);
+            } else {
+                Empresa e = new EmpresaJpaController(emf).findEmpresa(empresa.getId());
+                request.getSession().setAttribute("current_user", e);
                 response.sendRedirect("admin");
             }
         }

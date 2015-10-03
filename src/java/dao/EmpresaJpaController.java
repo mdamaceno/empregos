@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import models.Empresa;
 
 /**
@@ -197,6 +199,21 @@ public class EmpresaJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         } finally {
             em.close();
+        }
+    }
+    
+    public Empresa getEmpresaByCnpjAndPassowrd(String cnpj, String password) {
+        Query qry = getEntityManager().createNamedQuery("Empresa.findByCnpjAndPassword");
+        
+        qry.setParameter("doc", cnpj);
+        qry.setParameter("pass", password);
+        
+        try {
+            return (Empresa) qry.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch(NonUniqueResultException e){
+            return (Empresa) qry.getResultList().get(0);
         }
     }
     

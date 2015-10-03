@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Empresa;
 import models.Pessoa;
 
 /**
@@ -51,11 +52,15 @@ public class Admin extends HttpServlet {
         emf = Persistence.createEntityManagerFactory("EmpregosPU");
 
         if (acao == null) {
+            Object o = (Object) request.getSession().getAttribute("current_user");
             try {
-                Pessoa p = (Pessoa) request.getSession().getAttribute("current_user");
-
-                if (p.getPermissao().equals(1)) {
-
+                
+                if (o.getClass().getName().toString() == "Pessoa") {
+                    Pessoa p;
+                    p = (Pessoa) o;
+                } else {
+                    Empresa e;
+                    e = (Empresa) o;
                 }
 
                 injectPage(request, "dashboard");
