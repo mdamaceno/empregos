@@ -9,7 +9,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Brand</a>
+            <a class="navbar-brand" href="admin">Admin</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -30,19 +30,33 @@
                     </ul>
                 </li>
             </ul>
-            <form class="navbar-form navbar-left" role="search">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Search">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Link</a></li>
                 <% Pessoa p = (Pessoa) session.getAttribute("current_user");
                     if (p != null) {
                 %>
-                <li><a href="?action=logout">Sair</a></li>
+                <% if (p.getPermissao() == 0) { %>
+                <form class="navbar-form navbar-left" method="POST" action="admin">
+                    <input type="hidden" name="action" value="view_companies" />
+                    <button type="submit" class="btn btn-sm btn-primary">Empresas</button>
+                </form>
+                <form class="navbar-form navbar-left" method="POST" action="admin">
+                    <input type="hidden" name="action" value="view_users" />
+                    <button type="submit" class="btn btn-sm btn-primary">Usuários</button>
+                </form>
+                <form class="navbar-form navbar-left" method="POST" action="admin">
+                    <input type="hidden" name="action" value="view_interviews" />
+                    <button type="submit" class="btn btn-sm btn-primary">Reuniões</button>
+                </form>
                 <% } %>
+                <form class="navbar-form navbar-right" method="POST" action="admin">
+                    <input type="hidden" name="action" value="logout" />
+                    <button type="submit" class="btn btn-sm btn-danger">Sair</button>
+                </form>
+                <form class="navbar-form navbar-left" method="POST" action="admin">
+                    <input type="hidden" name="action" value="edit_resume" />
+                    <button type="submit" class="btn btn-sm btn-primary">Minhas informações</button>
+                </form>
+                <% }%>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->

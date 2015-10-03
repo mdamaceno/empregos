@@ -8,10 +8,7 @@
 <h1>Painel Administrativo</h1>
 <div class="row">
     <div class="col-md-4">
-        <form method="POST" action="admin">
-            <input type="hidden" name="action" value="edit_resume" />
-            <button type="submit" class="btn btn-primary">Minhas informações</button>
-        </form>
+
     </div>
 </div>
 

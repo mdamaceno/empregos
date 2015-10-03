@@ -8,6 +8,7 @@ package servlets;
 import dao.PessoaJpaController;
 import dao.exceptions.NonexistentEntityException;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManagerFactory;
@@ -123,6 +124,21 @@ public class Admin extends HttpServlet {
             }
             injectPage(request, "dashboard");
             rd.forward(request, response);
+
+        } else if (acao.equalsIgnoreCase("view_companies")) {
+            injectPage(request, "companies");
+            rd.forward(request, response);
+
+        } else if (acao.equalsIgnoreCase("view_users")) {
+            injectPage(request, "users");
+            List<Pessoa> lst = new PessoaJpaController(emf).findPessoaEntities();
+            request.setAttribute("listUsers", lst);
+            rd.forward(request, response);
+
+        } else if (acao.equalsIgnoreCase("view_interviews")) {
+            injectPage(request, "interviews");
+            rd.forward(request, response);
+
         } else if (acao.equalsIgnoreCase("logout")) {
             logout(request, response);
         }
@@ -139,6 +155,12 @@ public class Admin extends HttpServlet {
         } catch (IOException ex) {
             Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void listUsers(HttpServletRequest request, EntityManagerFactory emf) {
+        request.setAttribute("pg", "users");
+        List<Pessoa> list = new PessoaJpaController(emf).findPessoaEntities();
+        request.setAttribute("listUsers", list);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

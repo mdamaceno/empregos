@@ -14,6 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import models.Pessoa;
 
 /**
  *
@@ -42,13 +44,24 @@ public class Home extends HttpServlet {
         EntityManagerFactory emf;
         emf = Persistence.createEntityManagerFactory("EmpregosPU");
         
+        HttpSession session = request.getSession();
+        
         if (acao == null) {
             request.setAttribute("pg", "home");
+            rd.forward(request, response);
         } else if (acao.equalsIgnoreCase("login")) {
-            request.setAttribute("pg", "login");
+            Pessoa p = (Pessoa) session.getAttribute("current_user");
+            if (p == null) {
+                request.setAttribute("pg", "login");
+                rd.forward(request, response);
+            } else {
+                // Reedireciona o usuario para /admin se já estiver logado
+                response.sendRedirect("admin");
+            }
+            
         }
         
-        rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

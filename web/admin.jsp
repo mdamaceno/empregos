@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,6 +21,7 @@
 
         <div id="main">
             <div class="container">
+                <h1>Painel Administrativo</h1>
                 <%
                     String pagina = request.getParameter("pg");
                     try {

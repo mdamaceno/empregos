@@ -1,4 +1,5 @@
-<h1>Cadastrar Currículo</h1>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<h2>Minhas Informações</h2>
 
 <div class="row">
     <div class="col-md-12">
@@ -84,21 +85,22 @@
                     </label>
                 </div>
             </div>
-                    
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Permissão</label>
-                <div class="col-sm-10">
-                    <select class="form-control" name="resume_role">
-                        <option value="">Selecione</option>
-                        <option value="0" ${user.permissao == 0 ? 'selected' : ''}>Administrador</option>
-                        <option value="1" ${user.permissao == 1 ? 'selected' : ''}>Candidato</option>
-                        <option value="2" ${user.permissao == 2 ? 'selected' : ''}>Empresa</option>
-                    </select>
+
+            <c:if test="${user.permissao == 0}">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">Permissão</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" name="resume_role">
+                            <option value="">Selecione</option>
+                            <option value="0" ${user.permissao == 0 ? 'selected' : ''}>Administrador</option>
+                            <option value="1" ${user.permissao == 1 ? 'selected' : ''}>Candidato</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="pull-right">
-                <button type="submit" class="btn btn-success">Cadastrar</button>
-            </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+            </c:if>
         </form>
     </div>
 </div>
