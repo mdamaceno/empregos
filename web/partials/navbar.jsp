@@ -1,3 +1,4 @@
+<%@page import="models.Pessoa"%>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -37,7 +38,11 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="#">Link</a></li>
+                <% Pessoa p = (Pessoa) session.getAttribute("current_user");
+                    if (p != null) {
+                %>
                 <li><a href="?action=logout">Sair</a></li>
+                <% } %>
             </ul>
         </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
