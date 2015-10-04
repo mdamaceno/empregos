@@ -54,8 +54,7 @@ public class Admin extends HttpServlet {
         if (acao == null) {
             Object o = (Object) request.getSession().getAttribute("current_user");
             try {
-                
-                if (o.getClass().getName().toString() == "Pessoa") {
+                if (o.getClass().getSimpleName().toString().equals("Pessoa")) {
                     Pessoa p;
                     p = (Pessoa) o;
                 } else {
@@ -65,7 +64,7 @@ public class Admin extends HttpServlet {
 
                 injectPage(request, "dashboard");
                 rd.forward(request, response);
-            } catch (Exception ex) {
+            } catch (ServletException | IOException ex) {
                 // Redireciona para /home se tenta acessar /admin sem estar logado
                 response.sendRedirect("home");
             }

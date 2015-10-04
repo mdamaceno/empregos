@@ -33,15 +33,18 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <c:if test="${current_user != null}">
-                    <c:if test="${empty current_user.cnpj}">
-                        <form class="navbar-form navbar-left" method="POST" action="admin">
-                            <input type="hidden" name="action" value="view_companies" />
-                            <button type="submit" class="btn btn-sm btn-primary">Empresas</button>
-                        </form>
-                        <form class="navbar-form navbar-left" method="POST" action="admin">
-                            <input type="hidden" name="action" value="view_users" />
-                            <button type="submit" class="btn btn-sm btn-primary">Usuários</button>
-                        </form>
+                    <!-- <c:catch var="cnpj">${current_user.cnpj}</c:catch> -->
+                    <c:if test="${cnpj != null}">
+                        <c:if test="${current_user.permissao == 0}">
+                            <form class="navbar-form navbar-left" method="POST" action="admin">
+                                <input type="hidden" name="action" value="view_companies" />
+                                <button type="submit" class="btn btn-sm btn-primary">Empresas</button>
+                            </form>
+                            <form class="navbar-form navbar-left" method="POST" action="admin">
+                                <input type="hidden" name="action" value="view_users" />
+                                <button type="submit" class="btn btn-sm btn-primary">Usuários</button>
+                            </form>
+                        </c:if>
                     </c:if>
                     <form class="navbar-form navbar-left" method="POST" action="admin">
                         <input type="hidden" name="action" value="view_interviews" />
