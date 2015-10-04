@@ -201,20 +201,40 @@ public class PessoaJpaController implements Serializable {
             em.close();
         }
     }
-    
+
     public Pessoa getPessoaByLoginAndPassword(String email, String password) {
         Query qry = getEntityManager().createNamedQuery("Pessoa.findByLoginAndPassword");
-        
+
         qry.setParameter("ema", email);
         qry.setParameter("pass", password);
-        
+
         try {
             return (Pessoa) qry.getSingleResult();
         } catch (NoResultException e) {
             return null;
-        } catch(NonUniqueResultException e){
+        } catch (NonUniqueResultException e) {
             return (Pessoa) qry.getResultList().get(0);
         }
     }
-    
+
+    public List<Pessoa> getPessoaByFuncao(int funcao) {
+
+        EntityManager em = getEntityManager();
+
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Pessoa.class));
+
+            Query q = getEntityManager().createNamedQuery("Pessoa.findByFuncao");
+
+            q.setParameter("func1", funcao);
+            q.setParameter("func2", funcao);
+            q.setParameter("func3", funcao);
+
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
 }

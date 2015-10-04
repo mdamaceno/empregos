@@ -142,6 +142,23 @@ public class Admin extends HttpServlet {
         } else if (acao.equalsIgnoreCase("view_interviews")) {
             injectPage(request, "interviews");
             rd.forward(request, response);
+            
+        } else if (acao.equalsIgnoreCase("new_interview")) {
+            injectPage(request, "new_interview");
+            
+            String opt = request.getParameter("opt_user");
+            
+            List<Pessoa> lst = null;
+            
+            if (opt == null || opt.equals("")) {
+                lst = new PessoaJpaController(emf).findPessoaEntities();
+            } else {
+                lst = new PessoaJpaController(emf).getPessoaByFuncao(Integer.parseInt(opt));
+            }
+                        
+            request.setAttribute("listUsers", lst);
+            
+            rd.forward(request, response);
 
         } else if (acao.equalsIgnoreCase("logout")) {
             logout(request, response);
