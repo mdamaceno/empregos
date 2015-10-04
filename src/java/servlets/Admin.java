@@ -157,6 +157,7 @@ public class Admin extends HttpServlet {
             }
                         
             request.setAttribute("listUsers", lst);
+            request.setAttribute("filterSelected", opt);
             
             rd.forward(request, response);
 

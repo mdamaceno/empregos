@@ -10,17 +10,16 @@
                     <label class="col-sm-5 control-label">Busca por função</label>
                     <div class="col-sm-7">
                         <select name="opt_user" class="form-control" id="function">
-                            <option value="">Selecione uma opção</option>
-                            <option value="200">Gerente de TI</option>
-                            <option value="201">Cientista de Dados</option>
-                            <option value="202">Desenvolvedor Mobile</option>
-                            <option value="203">Desenvolvedor Web</option>
-                            <option value="204">Gerente de Projetos</option>
-                            <option value="205">Analista de Mídias Sociais</option>
-                            <option value="206">Tester</option>
-                            <option value="207">Webdesign</option>
+                            <option value="">Todos</option>
+                            <option value="200" ${filterSelected == 200 ? 'selected' : ''}>Gerente de TI</option>
+                            <option value="201" ${filterSelected == 201 ? 'selected' : ''}>Cientista de Dados</option>
+                            <option value="202" ${filterSelected == 202 ? 'selected' : ''}>Desenvolvedor Mobile</option>
+                            <option value="203" ${filterSelected == 203 ? 'selected' : ''}>Desenvolvedor Web</option>
+                            <option value="204" ${filterSelected == 204 ? 'selected' : ''}>Gerente de Projetos</option>
+                            <option value="205" ${filterSelected == 205 ? 'selected' : ''}>Analista de Mídias Sociais</option>
+                            <option value="206" ${filterSelected == 206 ? 'selected' : ''}>Tester</option>
+                            <option value="207" ${filterSelected == 207 ? 'selected' : ''}>Webdesign</option>
                         </select>
-                        <button class="btn btn-sm btn-primary" type="submit">Buscar</button>
                     </div>
                 </div>
             </form>
@@ -53,3 +52,11 @@
         </table>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $("#function").on("click", function () {
+            $('form').submit();
+        });
+    });
+</script>
