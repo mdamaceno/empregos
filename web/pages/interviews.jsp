@@ -23,9 +23,7 @@
                     <th>Candidato</th>
                     <th>Empresa</th>
                     <th>Data da Reunião</th>
-                        <c:if test="${cnpj != null}">
-                        <th>Confirmação</th>
-                        </c:if>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,10 +34,19 @@
                         <td>${i.empresaId.nome}</td>
                         <td>${i.dataReuniao}</td>
                         <c:if test="${cnpj != null}">
-                            <td>
-                                <button type="submit" class="btn btn-xs btn-success yes">Sim</button>
-                                <button type="submit" class="btn btn-xs btn-danger no">Não</button>
-                            </td>
+                            <c:if test="${empty i.confirmacao}">
+                                <td>
+                                    <button type="submit" class="btn btn-xs btn-success yes">ACEITAR</button>
+                                    <button type="submit" class="btn btn-xs btn-danger no">REJEITAR</button>
+                                </td>
+                            </c:if>
+                        </c:if>
+                        <c:if test="${empty i.confirmacao}"><td></td></c:if>
+                        <c:if test="${i.confirmacao == 'yes'}">
+                            <td><span class="label label-success">ACEITO</span></td>
+                        </c:if>
+                        <c:if test="${i.confirmacao == 'no'}">
+                            <td><span class="label label-danger">REJEITADO</span></td>
                         </c:if>
                     </tr>
                 </c:forEach>
@@ -56,12 +63,12 @@
 
 <script>
     $(document).ready(function () {
-        $("button.yes").on("click", function() {
+        $("button.yes").on("click", function () {
             $("#yes_no").val("yes");
             $("#interview_id").val($(this).closest('tr').children('td.one').text());
             $("form#confirm_interview_form").submit();
         });
-        $("button.no").on("click", function() {
+        $("button.no").on("click", function () {
             $("#yes_no").val("no");
             $("#interview_id").val($(this).closest('tr').children('td.one').text());
             $("form#confirm_interview_form").submit();
