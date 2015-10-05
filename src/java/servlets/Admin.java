@@ -5,6 +5,7 @@
  */
 package servlets;
 
+import dao.EmpresaJpaController;
 import dao.PessoaJpaController;
 import dao.ReuniaoJpaController;
 import dao.exceptions.NonexistentEntityException;
@@ -146,6 +147,20 @@ public class Admin extends HttpServlet {
             rd.forward(request, response);
 
         } else if (acao.equalsIgnoreCase("view_interviews")) {
+            Object o = (Object) request.getSession().getAttribute("current_user");
+
+            if (o.getClass().getSimpleName().equals("Pessoa")) {
+                Pessoa p;
+                p = (Pessoa) o;
+                List<Reuniao> lst = new ReuniaoJpaController(emf).getReuniaoByPessoaId(p);
+                request.setAttribute("listInterviews", lst);
+            } else {
+                Empresa e;
+                e = (Empresa) o;
+                List<Reuniao> lst = new ReuniaoJpaController(emf).getReuniaoByEmpresaId(e);
+                request.setAttribute("listInterviews", lst);
+            }
+
             injectPage(request, "interviews");
             rd.forward(request, response);
 
@@ -159,22 +174,47 @@ public class Admin extends HttpServlet {
             request.setAttribute("candidate", p);
 
             rd.forward(request, response);
+            
+        } else if (acao.equalsIgnoreCase("confirm_interview")) {           
+            int interview_id = Integer.parseInt(request.getParameter("interview_id"));
+            String yes_no = request.getParameter("yes_no");
+            
+            Reuniao r = new ReuniaoJpaController(emf).findReuniao(interview_id);
+            
+            r.setConfirmacao(yes_no);
+            
+            request.setAttribute("action", "view_interviews");
+            
+            Pessoa p = (Pessoa) request.getSession().getAttribute("current_user");
+            
+            try {
+                new ReuniaoJpaController(emf).edit(r);
+                injectPage(request, "interviews");
+                
+                List<Reuniao> lst = new ReuniaoJpaController(emf).getReuniaoByPessoaId(p);
+                request.setAttribute("listInterviews", lst);
+                
+                rd.forward(request, response);
+            } catch (Exception ex) {
+                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
         } else if (acao.equalsIgnoreCase("save_interview")) {
             try {
                 int candidate_id = Integer.parseInt(request.getParameter("candidate"));
                 Pessoa pessoa = new PessoaJpaController(emf).findPessoa(candidate_id);
                 Empresa empresa = (Empresa) request.getSession().getAttribute("current_user");
-                
+
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date interview_date = sdf.parse(request.getParameter("interview_date"));
-                
+
                 Reuniao r;
                 r = new Reuniao(null, interview_date, empresa, pessoa);
-                
+
                 new ReuniaoJpaController(emf).create(r);
-                
+
                 injectPage(request, "interviews");
+                
                 rd.forward(request, response);
             } catch (ParseException ex) {
                 Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);

@@ -32,8 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Reuniao.findAll", query = "SELECT r FROM Reuniao r"),
     @NamedQuery(name = "Reuniao.findById", query = "SELECT r FROM Reuniao r WHERE r.id = :id"),
-    @NamedQuery(name = "Reuniao.findByDataReuniao", query = "SELECT r FROM Reuniao r WHERE r.dataReuniao = :dataReuniao")})
+    @NamedQuery(name = "Reuniao.findByDataReuniao", query = "SELECT r FROM Reuniao r WHERE r.dataReuniao = :dataReuniao"),
+    @NamedQuery(name = "Reuniao.findByPessoaId", query = "SELECT r FROM Reuniao r WHERE r.pessoaId.id = :pes"),
+    @NamedQuery(name = "Reuniao.findByEmpresaId", query = "SELECT r FROM Reuniao r WHERE r.empresaId.id = :emp")})
 public class Reuniao implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,6 +53,8 @@ public class Reuniao implements Serializable {
     @JoinColumn(name = "pessoa_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Pessoa pessoaId;
+    @Column(length = 3)
+    private String confirmacao;
 
     public Reuniao() {
     }
@@ -59,7 +64,15 @@ public class Reuniao implements Serializable {
         this.dataReuniao = dataReuniao;
         this.empresaId = empresaId;
         this.pessoaId = pessoaId;
-    } 
+    }
+    
+    public Reuniao(Integer id, Date dataReuniao, Empresa empresaId, Pessoa pessoaId, String confirmacao) {
+        this.id = id;
+        this.dataReuniao = dataReuniao;
+        this.empresaId = empresaId;
+        this.pessoaId = pessoaId;
+        this.confirmacao = confirmacao;
+    }
 
     public Reuniao(Integer id) {
         this.id = id;
@@ -102,6 +115,16 @@ public class Reuniao implements Serializable {
         this.pessoaId = pessoaId;
     }
 
+    public String getConfirmacao() {
+        return confirmacao;
+    }
+
+    public void setConfirmacao(String confirmacao) {
+        this.confirmacao = confirmacao;
+    }
+    
+    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -126,5 +149,5 @@ public class Reuniao implements Serializable {
     public String toString() {
         return "models.Reuniao[ id=" + id + " ]";
     }
-    
+
 }

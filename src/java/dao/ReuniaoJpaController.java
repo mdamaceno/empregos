@@ -194,4 +194,38 @@ public class ReuniaoJpaController implements Serializable {
         }
     }
     
+    public List<Reuniao> getReuniaoByPessoaId(Pessoa pessoa) {
+        EntityManager em = getEntityManager();
+
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Pessoa.class));
+
+            Query q = getEntityManager().createNamedQuery("Reuniao.findByPessoaId");
+
+            q.setParameter("pes", pessoa.getId());
+
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public List<Reuniao> getReuniaoByEmpresaId(Empresa empresa) {
+        EntityManager em = getEntityManager();
+
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Pessoa.class));
+
+            Query q = getEntityManager().createNamedQuery("Reuniao.findByEmpresaId");
+
+            q.setParameter("emp", empresa.getId());
+
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+    
 }
