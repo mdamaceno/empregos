@@ -6,8 +6,13 @@
 package servlets;
 
 import dao.PessoaJpaController;
+import dao.ReuniaoJpaController;
 import dao.exceptions.NonexistentEntityException;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import models.Empresa;
 import models.Pessoa;
+import models.Reuniao;
 
 /**
  *
@@ -142,23 +148,54 @@ public class Admin extends HttpServlet {
         } else if (acao.equalsIgnoreCase("view_interviews")) {
             injectPage(request, "interviews");
             rd.forward(request, response);
-            
+
         } else if (acao.equalsIgnoreCase("new_interview")) {
             injectPage(request, "new_interview");
-            
+
+            int candidate_id = Integer.parseInt(request.getParameter("candidate_id"));
+
+            Pessoa p = new PessoaJpaController(emf).findPessoa(candidate_id);
+
+            request.setAttribute("candidate", p);
+
+            rd.forward(request, response);
+
+        } else if (acao.equalsIgnoreCase("save_interview")) {
+            try {
+                int candidate_id = Integer.parseInt(request.getParameter("candidate"));
+                Pessoa pessoa = new PessoaJpaController(emf).findPessoa(candidate_id);
+                Empresa empresa = (Empresa) request.getSession().getAttribute("current_user");
+                
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date interview_date = sdf.parse(request.getParameter("interview_date"));
+                
+                Reuniao r;
+                r = new Reuniao(null, interview_date, empresa, pessoa);
+                
+                new ReuniaoJpaController(emf).create(r);
+                
+                injectPage(request, "interviews");
+                rd.forward(request, response);
+            } catch (ParseException ex) {
+                Logger.getLogger(Admin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } else if (acao.equalsIgnoreCase("candidates")) {
+            injectPage(request, "candidates");
+
             String opt = request.getParameter("opt_user");
-            
+
             List<Pessoa> lst = null;
-            
+
             if (opt == null || opt.equals("")) {
                 lst = new PessoaJpaController(emf).findPessoaEntities();
             } else {
                 lst = new PessoaJpaController(emf).getPessoaByFuncao(Integer.parseInt(opt));
             }
-                        
+
             request.setAttribute("listUsers", lst);
             request.setAttribute("filterSelected", opt);
-            
+
             rd.forward(request, response);
 
         } else if (acao.equalsIgnoreCase("logout")) {

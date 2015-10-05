@@ -54,6 +54,13 @@ public class Reuniao implements Serializable {
     public Reuniao() {
     }
 
+    public Reuniao(Integer id, Date dataReuniao, Empresa empresaId, Pessoa pessoaId) {
+        this.id = id;
+        this.dataReuniao = dataReuniao;
+        this.empresaId = empresaId;
+        this.pessoaId = pessoaId;
+    } 
+
     public Reuniao(Integer id) {
         this.id = id;
     }
