@@ -4,11 +4,8 @@
     Author     : Marco
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<h1>Bem vindo a Home</h1>
-
-<form action="home" method="POST">
-    <input type="hidden" name="action" value="login" />
-    <button class="btn btn-primary">Fazer login</button>
-</form>
+<div class="row section1_home">
+    <div class="col-md-12">
+        <h1>Bem vindo ao Empregos</h1>
+    </div>
+</div>

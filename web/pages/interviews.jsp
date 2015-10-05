@@ -13,7 +13,6 @@
     </c:if>
 </div>
 
-
 <div class="row">
     <div class="col-md-12">
         <table class="table">
@@ -33,21 +32,23 @@
                         <td>${i.pessoaId.nome}</td>
                         <td>${i.empresaId.nome}</td>
                         <td>${i.dataReuniao}</td>
+                        <td>
                         <c:if test="${cnpj != null}">
                             <c:if test="${empty i.confirmacao}">
-                                <td>
+                                
                                     <button type="submit" class="btn btn-xs btn-success yes">ACEITAR</button>
                                     <button type="submit" class="btn btn-xs btn-danger no">REJEITAR</button>
-                                </td>
+                                
                             </c:if>
                         </c:if>
-                        <c:if test="${empty i.confirmacao}"><td></td></c:if>
+                        <c:if test="${empty i.confirmacao}"></c:if>
                         <c:if test="${i.confirmacao == 'yes'}">
-                            <td><span class="label label-success">ACEITO</span></td>
+                            <span class="label label-success">ACEITO</span>
                         </c:if>
                         <c:if test="${i.confirmacao == 'no'}">
-                            <td><span class="label label-danger">REJEITADO</span></td>
+                            <span class="label label-danger">REJEITADO</span>
                         </c:if>
+                        </td>
                     </tr>
                 </c:forEach>
             </tbody>

@@ -12,11 +12,14 @@
         <title>JSP Page</title>
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="css/bootstrap-theme.min.css" rel="stylesheet" />
+        
         <script src="js/jquery-1.11.3.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        
+        <link href="css/custom.css" rel="stylesheet" />
     </head>
     <body>
-        <%@include file="partials/navbar.jsp" %>
+        <%@include file="partials/navbar_home.jsp" %>
 
         <div id="main">
             <div class="container">
